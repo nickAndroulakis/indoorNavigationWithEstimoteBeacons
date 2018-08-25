@@ -1,5 +1,6 @@
 package com.zzz.prpp.thesis_v01;
 
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -60,14 +61,14 @@ public class CalibrationActivity extends AppCompatActivity {
         six = null;
     }
 
-    private void printCal(Calibration cal){
-        System.out.println(cal.getmOne());
-        System.out.println(cal.getmTwo());
-        System.out.println(cal.getmThree());
-        System.out.println(cal.getmFour());
-        System.out.println(cal.getmFive());
-        System.out.println(cal.getmSix());
-
+    private void printNod(Node nod){
+        System.out.println(nod.getmNumber());
+        System.out.println(nod.getmOne());
+        System.out.println(nod.getmTwo());
+        System.out.println(nod.getmThree());
+        System.out.println(nod.getmFour());
+        System.out.println(nod.getmFive());
+        System.out.println(nod.getmSix());
     }
 
     private void calibrate_node(final Integer nd){
@@ -86,11 +87,9 @@ public class CalibrationActivity extends AppCompatActivity {
                             case 48918: four = computeAccuracy(item);
                                 break;
                         }
-                        Calibration cal = new Calibration(one,two,three,four,five,six);
-                        printCal(cal);
-                        Node nod = new Node(nd,cal);
-                        NodeRepository repository = new NodeRepository(application);
-                        repository.insert(nod);
+                        Node nod = new Node(nd,one,two,three,four,five,six);
+                        printNod(nod);
+                        //mNodeViewModel.insert(nod);
                         TextView textView = findViewById(R.id.tvCenter);
                         textView.setText(item.getMinor()+ " - " + computeAccuracy(item));
                     }
@@ -110,7 +109,7 @@ public class CalibrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calibration);
 
-
+        mNodeViewModel = ViewModelProviders.of(this).get(NodeViewModel.class);
 
         region = new BeaconRegion("ranged region",
                 UUID.fromString("B9407F30-F5F8-466E-AFF9-25556B57FE6D"), null, null);
