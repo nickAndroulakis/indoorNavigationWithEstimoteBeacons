@@ -19,6 +19,12 @@
         <activity android:name=".CalibrationActivity"
             android:parentActivityName=".MainActivity">
         </activity>
+        <activity android:name=".NodeListActivity"
+            android:parentActivityName=".CalibrationActivity">
+        </activity>
+        <activity android:name=".NewNodeActivity"
+            android:parentActivityName=".NodeListActivity">
+        </activity>
     </application>
 
 </manifest>

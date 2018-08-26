@@ -29,7 +29,7 @@ import java.util.List;
 public class NodeListAdapter extends RecyclerView.Adapter<NodeListAdapter.NodeViewHolder> {
 
     class NodeViewHolder extends RecyclerView.ViewHolder {
-        private final TextView wordItemView;
+        private final TextView nodeItemView;
 
         private NodeViewHolder(View itemView) {
             super(itemView);

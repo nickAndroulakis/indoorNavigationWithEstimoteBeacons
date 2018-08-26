@@ -1,5 +1,6 @@
 package com.zzz.prpp.thesis_v01;
 
+import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 
 import android.arch.persistence.room.PrimaryKey;
@@ -11,6 +12,9 @@ public class Node {
 
     @PrimaryKey(autoGenerate = true)
     private Integer mId;
+    @NonNull
+    @ColumnInfo(name = "node")
+    private Integer mNumber;
     private Double mOne;
     private Double mTwo;
     private Double mThree;
@@ -18,8 +22,6 @@ public class Node {
     private Double mFive;
     private Double mSix;
 
-    @NonNull
-    public Integer mNumber;
 
     //constructor
     public Node(@NonNull Integer number, Double one, Double two, Double three, Double four, Double five, Double six) {
@@ -32,15 +34,37 @@ public class Node {
         this.mSix = six;
     }
 
+    public String getNode(){
+        if (mOne==null)
+            mOne= 10.0;
+        if (mTwo==null)
+            mTwo= 10.0;
+        if (mThree==null)
+            mThree= 10.0;
+        if (mFour==null)
+            mFour= 10.0;
+        if (mFive==null)
+            mFive= 10.0;
+        if (mSix==null)
+            mSix= 10.0;
+
+        return mNumber.toString() + "-" + mOne.toString() + "," + mTwo.toString() + "," + mThree.toString() + "," + mFour.toString() + "," + mFive.toString() + "," + mSix.toString() ; }
+
+
     //getters
-    public Integer getmId() {return this.mId;}
+
+    public Integer getMId() {return this.mId;}
     @NonNull
-    public Integer getmNumber() {return this.mNumber;}
-    public Double getmOne() {return this.mOne;}
-    public Double getmTwo() {return this.mTwo;}
-    public Double getmThree() {return this.mThree;}
-    public Double getmFour() {return this.mFour;}
-    public Double getmFive() {return this.mFive;}
-    public Double getmSix() {return this.mSix;}
+    public Integer getMNumber() {return this.mNumber;}
+    public Double getMOne() {return this.mOne;}
+    public Double getMTwo() {return this.mTwo;}
+    public Double getMThree() {return this.mThree;}
+    public Double getMFour() {return this.mFour;}
+    public Double getMFive() {return this.mFive;}
+    public Double getMSix() {return this.mSix;}
+
+    //setters
+    public void setMId(Integer mId) {this.mId = mId;}
+
 
 }

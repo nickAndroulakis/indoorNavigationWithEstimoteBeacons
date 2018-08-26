@@ -6,99 +6,18 @@
     android:layout_height="match_parent"
     android:background="@drawable/map">
 
-    <TextView
-        android:id="@+id/tvCenter"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/bnNodeList"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="178dp"
-        android:layout_marginTop="16dp"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toTopOf="@+id/bn4"
+        android:layout_marginEnd="110dp"
+        android:layout_marginStart="110dp"
+        android:text="@string/button_node_list"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_editor_absoluteY="0dp" />
 
-    <Button
-        android:id="@+id/bn3"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="37dp"
-        android:layout_marginEnd="39dp"
-        android:layout_marginRight="39dp"
-        android:layout_marginTop="213dp"
-        android:text="3"
-        app:layout_constraintBottom_toTopOf="@+id/bn6"
-        app:layout_constraintEnd_toStartOf="@+id/bn4"
-        app:layout_constraintStart_toEndOf="@+id/bn2"
-        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/bn6"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="189dp"
-        android:text="6"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/bn3"
-        app:layout_constraintStart_toStartOf="@+id/bn3"
-        app:layout_constraintTop_toBottomOf="@+id/bn3" />
-
-    <Button
-        android:id="@+id/bn5"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="0dp"
-        android:layout_height="36dp"
-        android:layout_marginEnd="88dp"
-        android:layout_marginRight="88dp"
-        android:text="5"
-        app:layout_constraintBottom_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/bn4"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/bn4"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="262dp"
-        android:layout_marginEnd="45dp"
-        android:layout_marginRight="45dp"
-        android:text="4"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/bn5"
-        app:layout_constraintStart_toEndOf="@+id/bn3"
-        app:layout_constraintTop_toBottomOf="@+id/tvCenter" />
-
-    <Button
-        android:id="@+id/bn2"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="262dp"
-        android:layout_marginEnd="42dp"
-        android:layout_marginLeft="38dp"
-        android:layout_marginRight="42dp"
-        android:layout_marginStart="38dp"
-        android:text="2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/bn3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bn1" />
-
-    <Button
-        android:id="@+id/bn1"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="38dp"
-        android:layout_marginTop="139dp"
-        android:text="1"
-        app:layout_constraintBottom_toTopOf="@+id/bn2"
-        app:layout_constraintEnd_toEndOf="@+id/bn2"
-        app:layout_constraintStart_toStartOf="@+id/bn2"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

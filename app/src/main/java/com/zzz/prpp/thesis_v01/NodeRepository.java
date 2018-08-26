@@ -1,6 +1,7 @@
 package com.zzz.prpp.thesis_v01;
 
 import android.app.Application;
+import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 public class NodeRepository {
 
     private NodeDao mNodeDao;
-    private List<Node> mAllNodes;
+    private LiveData<List<Node>> mAllNodes;
 
     NodeRepository(Application application) {
         NodeRoomDatabase db = NodeRoomDatabase.getDatabase(application);
@@ -16,7 +17,7 @@ public class NodeRepository {
         mAllNodes = mNodeDao.getAllNodes();
     }
 
-    List<Node> getAllNodes() {
+    LiveData<List<Node>> getAllNodes() {
         return mAllNodes;
     }
 

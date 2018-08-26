@@ -44,8 +44,6 @@ public class NodeListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_node_list);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerview);
         final NodeListAdapter adapter = new NodeListAdapter(this);
@@ -60,8 +58,8 @@ public class NodeListActivity extends AppCompatActivity {
         // in the foreground.
         mNodeViewModel.getAllNodes().observe(this, new Observer<List<Node>>() {
             @Override
-            public void onChanged(@Nullable final List<Node> words) {
-                // Update the cached copy of the words in the adapter.
+            public void onChanged(@Nullable final List<Node> nodes) {
+                // Update the cached copy of the nodes in the adapter.
                 adapter.setNodes(nodes);
             }
         });
@@ -95,8 +93,12 @@ public class NodeListActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == NEW_NODE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            Node node = new Node(data.getStringExtra(NewNodeActivity.EXTRA_REPLY));
-            mNodeViewModel.insert(node);
+            //Node node = new Node(data.getStringExtra(NewNodeActivity.EXTRA_REPLY));
+            //mNodeViewModel.insert(node);
+            Toast.makeText(
+                    getApplicationContext(),
+                    R.string.button_save,
+                    Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(
                     getApplicationContext(),

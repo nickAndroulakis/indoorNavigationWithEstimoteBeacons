@@ -23,8 +23,6 @@ import static com.estimote.coresdk.observation.region.RegionUtils.computeAccurac
 
 public class CalibrationActivity extends AppCompatActivity {
 
-    private NodeViewModel mNodeViewModel;
-
     private BeaconManager beaconManager;
     private BeaconRegion region;
 
@@ -62,13 +60,13 @@ public class CalibrationActivity extends AppCompatActivity {
     }
 
     private void printNod(Node nod){
-        System.out.println(nod.getmNumber());
-        System.out.println(nod.getmOne());
-        System.out.println(nod.getmTwo());
-        System.out.println(nod.getmThree());
-        System.out.println(nod.getmFour());
-        System.out.println(nod.getmFive());
-        System.out.println(nod.getmSix());
+        System.out.println(nod.getMNumber());
+        System.out.println(nod.getMOne());
+        System.out.println(nod.getMTwo());
+        System.out.println(nod.getMThree());
+        System.out.println(nod.getMFour());
+        System.out.println(nod.getMFive());
+        System.out.println(nod.getMSix());
     }
 
     private void calibrate_node(final Integer nd){
@@ -109,73 +107,17 @@ public class CalibrationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calibration);
 
-        mNodeViewModel = ViewModelProviders.of(this).get(NodeViewModel.class);
+        Button btn = findViewById(R.id.bnNodeList);
 
-        region = new BeaconRegion("ranged region",
-                UUID.fromString("B9407F30-F5F8-466E-AFF9-25556B57FE6D"), null, null);
-
-
-        //Buttons
-
-        Button bt1 = findViewById(R.id.bn1);
-
-        bt1.setOnClickListener(new View.OnClickListener() {
+        btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bn_pressed = 1;
-                alertBox(bn_pressed);
+                startActivity(new Intent(CalibrationActivity.this, NodeListActivity.class));
             }
         });
 
-        Button bt2 = findViewById(R.id.bn2);
-
-        bt2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bn_pressed = 2;
-                alertBox(bn_pressed);
-            }
-        });
-
-        Button bt3 = findViewById(R.id.bn3);
-
-        bt3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bn_pressed = 3;
-                alertBox(bn_pressed);
-            }
-        });
-
-        Button bt4 = findViewById(R.id.bn4);
-
-        bt4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bn_pressed = 4;
-                alertBox(bn_pressed);
-            }
-        });
-
-        Button bt5 = findViewById(R.id.bn5);
-
-        bt5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bn_pressed = 5;
-                alertBox(bn_pressed);
-            }
-        });
-
-        Button bt6 = findViewById(R.id.bn6);
-
-        bt6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bn_pressed = 6;
-                alertBox(bn_pressed);
-            }
-        });
+        //region = new BeaconRegion("ranged region",
+        //        UUID.fromString("B9407F30-F5F8-466E-AFF9-25556B57FE6D"), null, null);
 
     }
 
@@ -187,17 +129,17 @@ public class CalibrationActivity extends AppCompatActivity {
 
         SystemRequirementsChecker.checkWithDefaultDialogs(this);
 
-        beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
+       /* beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
             @Override
             public void onServiceReady() {
                 beaconManager.startRanging(region);
             }
-        });
+        });*/
     }
 
     @Override
     protected void onPause() {
-        beaconManager.stopRanging(region);
+        //beaconManager.stopRanging(region);
 
         super.onPause();
     }

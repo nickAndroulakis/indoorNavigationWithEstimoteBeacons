@@ -4,4 +4,5 @@
     <string name="hint_node">Node…</string>
     <string name="button_save">Save</string>
     <string name="empty_not_saved">Node not saved because it is empty.</string>
+    <string name="button_node_list">Show Calibrations</string>
 </resources>
