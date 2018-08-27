@@ -93,11 +93,12 @@ public class NodeListActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == NEW_NODE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            //Node node = new Node(data.getStringExtra(NewNodeActivity.EXTRA_REPLY));
-            //mNodeViewModel.insert(node);
+            //Word word = new Word(data.getStringExtra(NewWordActivity.EXTRA_REPLY));
+            Node finalNode = new Node(data.getIntExtra("node", 99),data.getDoubleExtra("1",99.0),data.getDoubleExtra("2",99.0),data.getDoubleExtra("3",99.0),data.getDoubleExtra("4",99.0),data.getDoubleExtra("5",99.0),data.getDoubleExtra("6",99.0));
+            mNodeViewModel.insert(finalNode);
             Toast.makeText(
                     getApplicationContext(),
-                    R.string.button_save,
+                    R.string.button_calibrate,
                     Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(

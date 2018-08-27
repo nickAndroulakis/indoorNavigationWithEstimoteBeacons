@@ -23,7 +23,7 @@ public class Node {
     private Double mSix;
 
 
-    //constructor
+    //constructors
     public Node(@NonNull Integer number, Double one, Double two, Double three, Double four, Double five, Double six) {
         this.mNumber = number;
         this.mOne = one;
@@ -33,6 +33,7 @@ public class Node {
         this.mFive = five;
         this.mSix = six;
     }
+
 
     public String getNode(){
         if (mOne==null)
@@ -65,6 +66,12 @@ public class Node {
 
     //setters
     public void setMId(Integer mId) {this.mId = mId;}
-
+    public void setMNumber(@NonNull Integer mNumber) {this.mNumber = mNumber;}
+    public void setMOne(Double mOne) {this.mOne = mOne;}
+    public void setMTwo(Double mTwo) {this.mTwo = mTwo;}
+    public void setMThree(Double mThree) {this.mThree = mThree;}
+    public void setMFour(Double mFour) {this.mFour = mFour;}
+    public void setMFive(Double mFive) {this.mFive = mFive;}
+    public void setMSix(Double mSix) {this.mSix = mSix;}
 
 }

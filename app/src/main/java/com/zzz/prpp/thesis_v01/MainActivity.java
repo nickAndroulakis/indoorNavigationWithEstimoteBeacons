@@ -13,8 +13,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        Button btn = findViewById(R.id.bnCalibrate);
+        Button btn = findViewById(R.id.bnToCalibration);
 
         btn.setOnClickListener(new View.OnClickListener() {
             @Override

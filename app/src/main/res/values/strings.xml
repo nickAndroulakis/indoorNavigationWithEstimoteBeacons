@@ -2,7 +2,8 @@
     <string name="app_name">thesis-v0.1</string>
     <string name="action_settings">Settings</string>
     <string name="hint_node">Node…</string>
-    <string name="button_save">Save</string>
+    <string name="button_to_calibration">Calibrations</string>
+    <string name="button_calibrate">Calibrate</string>
     <string name="empty_not_saved">Node not saved because it is empty.</string>
-    <string name="button_node_list">Show Calibrations</string>
+    <string name="button_to_node_list">Show Calibrations</string>
 </resources>

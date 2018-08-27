@@ -1,60 +1,134 @@
 package com.zzz.prpp.thesis_v01;
 
-
-/*
- * Copyright (C) 2017 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.Spinner;
 
-/**
- * Activity for entering a word.
- */
+import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
+import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
+import com.estimote.coresdk.recognition.packets.Beacon;
+import com.estimote.coresdk.service.BeaconManager;
+import static com.estimote.coresdk.observation.region.RegionUtils.computeAccuracy;
+
+import java.util.List;
+import java.util.UUID;
+
 
 public class NewNodeActivity extends AppCompatActivity {
 
-    public static final String EXTRA_REPLY = "com.example.android.wordlistsql.REPLY";
+    public static final String EXTRA_REPLY = "com.zzz.prpp.thesis_v01.REPLY";
 
-    private  EditText mEditNodeView;
+    private BeaconManager beaconManager;
+    private BeaconRegion region;
+
+    private Double one = 100.0;
+    private Double two = 100.0;
+    private Double three = 100.0;
+    private Double four = 100.0;
+    private Double five = 100.0;
+    private Double six = 100.0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_node);
-        mEditNodeView = findViewById(R.id.edit_node);
 
-        final Button button = findViewById(R.id.button_save);
+        region = new BeaconRegion("ranged region",
+                UUID.fromString("B9407F30-F5F8-466E-AFF9-25556B57FE6D"), null, null);
+
+        beaconManager = new BeaconManager(this);
+        beaconManager.setRangingListener(new BeaconManager.BeaconRangingListener() {
+            @Override
+            public void onBeaconsDiscovered(BeaconRegion region, List<Beacon> list) {
+                if (!list.isEmpty()) {
+                    clear();
+                    for (Beacon item : list) {
+                        switch (item.getMinor()) {
+                            case 2224:
+                                one = computeAccuracy(item);
+                                break;
+                            case 46152:
+                                two = computeAccuracy(item);
+                                break;
+                            case 41111:
+                                three = computeAccuracy(item);
+                                break;
+                            case 48918:
+                                four = computeAccuracy(item);
+                                break;
+                            case 48677:
+                                five = computeAccuracy(item);
+                                break;
+                        }
+                    }
+                }
+            }
+        });
+
+        final Spinner dropdown = findViewById(R.id.spinner1);
+        Integer[] items = new Integer[]{1,2,3};
+        ArrayAdapter<Integer> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        dropdown.setAdapter(adapter);
+
+        final Button button = findViewById(R.id.bnCalibrate);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent replyIntent = new Intent();
-                if (TextUtils.isEmpty(mEditNodeView.getText())) {
+                Integer selectedNumber = (Integer) dropdown.getSelectedItem();
+
+                if (isEmpty()) {
                     setResult(RESULT_CANCELED, replyIntent);
                 } else {
-                    String node = mEditNodeView.getText().toString();
-                    replyIntent.putExtra(EXTRA_REPLY, node);
+                    replyIntent.putExtra("node", selectedNumber);
+                    replyIntent.putExtra("1", one);
+                    replyIntent.putExtra("2", two);
+                    replyIntent.putExtra("3", three);
+                    replyIntent.putExtra("4", four);
+                    replyIntent.putExtra("5", five);
+                    replyIntent.putExtra("6", six);
                     setResult(RESULT_OK, replyIntent);
                 }
                 finish();
             }
         });
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SystemRequirementsChecker.checkWithDefaultDialogs(this);
+
+        beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
+            @Override
+            public void onServiceReady() {
+                beaconManager.startRanging(region);
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        beaconManager.stopRanging(region);
+        super.onPause();
+    }
+
+    private Boolean isEmpty(){
+        return one == 100.0 && two == 100.0 && three == 100.0 && four == 100.0 && five == 100.0 && six == 100.0;
+    }
+
+    private void clear() {
+        one = 100.0;
+        two = 100.0;
+        three = 100.0;
+        four = 100.0;
+        five = 100.0;
+        six = 100.0;
     }
 }
-
