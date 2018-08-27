@@ -14,6 +14,8 @@ import com.estimote.coresdk.recognition.packets.Beacon;
 import com.estimote.coresdk.service.BeaconManager;
 import static com.estimote.coresdk.observation.region.RegionUtils.computeAccuracy;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.UUID;
 
@@ -84,12 +86,12 @@ public class NewNodeActivity extends AppCompatActivity {
                     setResult(RESULT_CANCELED, replyIntent);
                 } else {
                     replyIntent.putExtra("node", selectedNumber);
-                    replyIntent.putExtra("1", one);
-                    replyIntent.putExtra("2", two);
-                    replyIntent.putExtra("3", three);
-                    replyIntent.putExtra("4", four);
-                    replyIntent.putExtra("5", five);
-                    replyIntent.putExtra("6", six);
+                    replyIntent.putExtra("1", round(one));
+                    replyIntent.putExtra("2", round(two));
+                    replyIntent.putExtra("3", round(three));
+                    replyIntent.putExtra("4", round(four));
+                    replyIntent.putExtra("5", round(five));
+                    replyIntent.putExtra("6", round(six));
                     setResult(RESULT_OK, replyIntent);
                 }
                 finish();
@@ -130,5 +132,11 @@ public class NewNodeActivity extends AppCompatActivity {
         four = 100.0;
         five = 100.0;
         six = 100.0;
+    }
+
+    public static double round(double value) {
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(2, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }
