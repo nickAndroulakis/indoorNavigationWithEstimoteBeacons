@@ -16,6 +16,20 @@
         android:layout_marginRight="110dp"
         android:layout_marginStart="110dp"
         android:text="@string/button_to_calibration"
+        app:layout_constraintBottom_toTopOf="@+id/bnToNavigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/bnToNavigation"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="55dp"
+        android:layout_marginEnd="110dp"
+        android:layout_marginLeft="110dp"
+        android:layout_marginRight="110dp"
+        android:layout_marginStart="110dp"
+        android:text="@string/button_to_navigation"
         app:layout_constraintBottom_toTopOf="@+id/tvCenter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

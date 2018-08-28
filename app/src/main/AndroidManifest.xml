@@ -25,6 +25,9 @@
         <activity android:name=".NewNodeActivity"
             android:parentActivityName=".NodeListActivity">
         </activity>
+        <activity android:name=".NavigationActivity"
+            android:parentActivityName=".MainActivity">
+        </activity>
     </application>
 
 </manifest>
