@@ -70,5 +70,4 @@ public abstract class NodeRoomDatabase extends RoomDatabase {
             return null;
         }
     }
-
 }
