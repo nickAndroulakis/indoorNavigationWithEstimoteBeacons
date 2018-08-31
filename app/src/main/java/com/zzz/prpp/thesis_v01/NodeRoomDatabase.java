@@ -8,7 +8,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
-@Database(entities = {Node.class}, version = 1)
+@Database(entities = {Node.class}, version = 1, exportSchema = false)
 public abstract class NodeRoomDatabase extends RoomDatabase {
 
     public abstract NodeDao nodeDao();
