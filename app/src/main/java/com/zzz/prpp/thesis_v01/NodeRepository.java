@@ -10,7 +10,6 @@ public class NodeRepository {
 
     private NodeDao mNodeDao;
     private LiveData<List<Node>> mAllNodes;
-
     NodeRepository(Application application) {
         NodeRoomDatabase db = NodeRoomDatabase.getDatabase(application);
         mNodeDao = db.nodeDao();

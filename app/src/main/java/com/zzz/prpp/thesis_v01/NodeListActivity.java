@@ -25,7 +25,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -53,7 +52,7 @@ public class NodeListActivity extends AppCompatActivity {
         // Get a new or existing ViewModel from the ViewModelProvider.
         mNodeViewModel = ViewModelProviders.of(this).get(NodeViewModel.class);
 
-        // Add an observer on the LiveData returned by getAlphabetizedWords.
+        // Add an observer on the LiveData returned by getAllNodes.
         // The onChanged() method fires when the observed data changes and the activity is
         // in the foreground.
         mNodeViewModel.getAllNodes().observe(this, new Observer<List<Node>>() {

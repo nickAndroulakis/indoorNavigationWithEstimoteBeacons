@@ -8,10 +8,11 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 
-@Database(entities = {Node.class}, version = 1, exportSchema = false)
+@Database(entities = {Node.class, Coordinate.class}, version = 1, exportSchema = false)
 public abstract class NodeRoomDatabase extends RoomDatabase {
 
     public abstract NodeDao nodeDao();
+    public abstract CoordinateDao coordinateDao();
 
     private static NodeRoomDatabase INSTANCE;
 
@@ -55,16 +56,26 @@ public abstract class NodeRoomDatabase extends RoomDatabase {
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
 
         private final NodeDao mDao;
+        private final CoordinateDao mCoordinateDao;
 
         PopulateDbAsync(NodeRoomDatabase db) {
             mDao = db.nodeDao();
+            mCoordinateDao = db.coordinateDao();
         }
 
         @Override
         protected Void doInBackground(final Void... params) {
-            // Start the app with a clean database every time.
-            // Not needed if you only populate on creation.
-            //mDao.deleteAll();
+
+            //Coordinates
+            mCoordinateDao.deleteAll();
+            mCoordinateDao.insert(new Coordinate(1,5,2));
+            mCoordinateDao.insert(new Coordinate(2,5,4));
+            mCoordinateDao.insert(new Coordinate(3,7,4));
+            mCoordinateDao.insert(new Coordinate(4,1,5));
+
+
+            //Nodes
+            mDao.deleteAll();
             Node node = new Node(1,1.0,1.0,10.0,10.0,10.0,10.0);
             mDao.insert(node);
             return null;
