@@ -5,7 +5,11 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
+import com.estimote.coresdk.common.requirements.SystemRequirementsChecker;
 import com.estimote.coresdk.observation.region.beacon.BeaconRegion;
 import com.estimote.coresdk.recognition.packets.Beacon;
 import com.estimote.coresdk.service.BeaconManager;
@@ -21,10 +25,13 @@ import static com.estimote.coresdk.observation.region.RegionUtils.computeAccurac
 public class NavigationActivity extends AppCompatActivity {
 
     private NodeViewModel mNodeViewModel;
+    List<Node> nodeList = new ArrayList<>();
 
     private BeaconManager beaconManager;
     private BeaconRegion region;
     public Integer closestNodeNumber;
+    private Integer closestNodeId = 0;
+
 
     private Double one = 100.0;
     private Double two = 100.0;
@@ -38,10 +45,32 @@ public class NavigationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
 
-        final DrawView vw = new DrawView(this);
+        final DrawView vw = findViewById(R.id.dvNodes);
+        //final DrawView vw = new DrawView(this);
+
+        Button btn = findViewById(R.id.bnIncreasePosition);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                vw.increaseCurrentPosition();
+                vw.invalidate();
+            }
+        });
 
         // Get a new or existing ViewModel from the ViewModelProvider.
         mNodeViewModel = ViewModelProviders.of(this).get(NodeViewModel.class);
+
+        //if (mNodeViewModel.getAllNodes() != null) nodeList = mNodeViewModel.getAllNodes().getValue();
+        //else Log.d("Empty","list");
+
+        mNodeViewModel.getAllNodes().observe(this, new Observer<List<Node>>() {
+            @Override
+            public void onChanged(@Nullable List<Node> nodes) {
+                nodeList = mNodeViewModel.getAllNodes().getValue();
+                //vw.invalidate();
+                System.out.println("Nodes size: "+nodes.size());
+            }
+        });
 
         // Add an observer on the LiveData returned by getAllCoordinates.
         // The onChanged() method fires when the observed data changes and the activity is
@@ -49,7 +78,9 @@ public class NavigationActivity extends AppCompatActivity {
         mNodeViewModel.getAllCoordinates().observe(this, new Observer<List<Coordinate>>() {
             @Override
             public void onChanged(@Nullable List<Coordinate> coordinates) {
+                //DrawView.mCoordinates = coordinates;
                 vw.setCoordinates(coordinates);
+                vw.invalidate();
             }
         });
 
@@ -82,20 +113,26 @@ public class NavigationActivity extends AppCompatActivity {
                         }
                     }
                 }
+                Node myNode = new Node(99, one, two, three, four, five, null);
+                closestNodeNumber = calculateClosestNode(myNode);
+                vw.setCurrentPosition(closestNodeNumber);
+                vw.invalidate();
             }
         });
 
-        Node myNode = new Node(99,one,two,three,four,five, null);
-        closestNodeNumber = calculateClosestNode(myNode);
+
     }
 
-    private Integer calculateClosestNode(Node node){
-        Integer closestNodeId = 0;
+    private Integer calculateClosestNode(Node node) {
         double minDistance = 100.0;
-        List<Node> nodeList = (List) mNodeViewModel.getAllNodes();
-        for (Node nd : nodeList){
-            double distance = Math.sqrt(Math.pow(node.getMOne()-nd.getMOne(),2)+Math.pow(node.getMTwo()-nd.getMTwo(),2)+Math.pow(node.getMThree()-nd.getMThree(),2)+Math.pow(node.getMFour()-nd.getMFour(),2)+Math.pow(node.getMFive()-nd.getMFive(),2));
-            if (distance < minDistance) {closestNodeId = nd.getMNumber();}
+        if (!nodeList.isEmpty()) {
+            //System.out.println("CHECK");
+            for (Node nd : nodeList) {
+                double distance = Math.sqrt(Math.pow(node.getMOne() - nd.getMOne(), 2) + Math.pow(node.getMTwo() - nd.getMTwo(), 2) + Math.pow(node.getMThree() - nd.getMThree(), 2) + Math.pow(node.getMFour() - nd.getMFour(), 2) + Math.pow(node.getMFive() - nd.getMFive(), 2));
+                if (distance < minDistance) {
+                    closestNodeId = nd.getMNumber();
+                }
+            }
         }
         return closestNodeId;
     }
@@ -113,5 +150,26 @@ public class NavigationActivity extends AppCompatActivity {
         BigDecimal bd = new BigDecimal(value);
         bd = bd.setScale(2, RoundingMode.HALF_UP);
         return bd.doubleValue();
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        SystemRequirementsChecker.checkWithDefaultDialogs(this);
+
+        beaconManager.connect(new BeaconManager.ServiceReadyCallback() {
+            @Override
+            public void onServiceReady() {
+                beaconManager.startRanging(region);
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        beaconManager.stopRanging(region);
+        super.onPause();
     }
 }

@@ -19,6 +19,6 @@ public interface NodeDao {
     @Query("SELECT * from node_table ORDER BY mId ASC")
     LiveData<List<Node>> getAllNodes();
 
-    @Query("SELECT * from node_table ORDER BY node ASC")
-    LiveData<List<Node>> getAlphabetizedNodes();
+    @Query("SELECT * from node_table")
+    List<Node> getAllNodesSimple();
 }

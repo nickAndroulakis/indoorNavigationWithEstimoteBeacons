@@ -10,6 +10,7 @@ public class CoordinateRepository {
 
     private CoordinateDao mCoordinateDao;
     private LiveData<List<Coordinate>> mAllCoordinates;
+
     CoordinateRepository(Application application) {
         NodeRoomDatabase db = NodeRoomDatabase.getDatabase(application);
         mCoordinateDao = db.coordinateDao();

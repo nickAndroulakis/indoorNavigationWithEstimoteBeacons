@@ -13,6 +13,7 @@ public class NodeViewModel extends AndroidViewModel {
 
     private LiveData<List<Node>> mAllNodes;
     private LiveData<List<Coordinate>> mAllCoordinates;
+    //private List<Node> mAllNodesSimple;
 
     public NodeViewModel (Application application) {
         super(application);
@@ -20,10 +21,12 @@ public class NodeViewModel extends AndroidViewModel {
         mCoordinateRepository = new CoordinateRepository(application);
         mAllNodes = mRepository.getAllNodes();
         mAllCoordinates = mCoordinateRepository.getmAllCoordinates();
+        //mAllNodesSimple = mRepository.getmAllNodesSimple();
     }
 
     LiveData<List<Node>> getAllNodes() { return mAllNodes; }
     LiveData<List<Coordinate>> getAllCoordinates() { return mAllCoordinates;}
+    //List<Node> getmAllNodesSimple() { return mAllNodesSimple;}
 
     public void insert(Node node) { mRepository.insert(node); }
     public void insert(Coordinate coordinate) { mCoordinateRepository.insert(coordinate);}

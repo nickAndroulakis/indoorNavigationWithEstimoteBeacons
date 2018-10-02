@@ -15,10 +15,13 @@ import java.util.List;
 
 public class DrawView extends View {
 
+    //private List<Coordinate> mCoordinates = new ArrayList<>();
     private List<Coordinate> mCoordinates = new ArrayList<>();
+    private Integer current_position;
 
     int textColor = Color.parseColor("#000000");
     int solidColor = Color.parseColor("#3399ff");
+    int positionColor = Color.parseColor("#f4ad42");
 
     public DrawView(Context context) {
         super(context);
@@ -33,7 +36,9 @@ public class DrawView extends View {
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void onDraw(Canvas canvas) {
+
+        setWillNotDraw(false);
 
         Paint circlePaint = new Paint();
         circlePaint.setColor(solidColor);
@@ -44,8 +49,12 @@ public class DrawView extends View {
         textPaint.setTextSize(30);
         textPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
 
-        mCoordinates.add(new Coordinate(1,5,2));
-        mCoordinates.add(new Coordinate(2,5,3));
+        Paint positionPaint = new Paint();
+        positionPaint.setColor(positionColor);
+        positionPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+
+        //mCoordinates.add(new Coordinate(1,5,2));
+        /*mCoordinates.add(new Coordinate(2,5,3));
         mCoordinates.add(new Coordinate(3,7,3));
         mCoordinates.add(new Coordinate(4,1,4));
         mCoordinates.add(new Coordinate(5,1,5));
@@ -59,25 +68,43 @@ public class DrawView extends View {
         mCoordinates.add(new Coordinate(13,5,7));
         mCoordinates.add(new Coordinate(14,7,7));
         mCoordinates.add(new Coordinate(15,5,8));
-        mCoordinates.add(new Coordinate(16,7,8));
+        mCoordinates.add(new Coordinate(16,7,8));*/
 
         double offsetY;
         int radius = 30;
         int h = this.getHeight();
         int w = this.getWidth();
-        if (mCoordinates != null){
+        if (current_position == null) current_position = 2;
+
+        if (!mCoordinates.isEmpty()){
+            System.out.println("mCoordinates not empty");
             for (Coordinate c : mCoordinates){
                 if (c.getMId()>9) offsetY = 0.5; else offsetY = 0;
                 canvas.drawCircle((float) c.getMX() * w / 10, (float) (c.getMY() + offsetY)* h / 10, radius, circlePaint);
                 canvas.drawText(String.valueOf(c.getMId()), (float) c.getMX() * w / 10 - radius / 3, (float) (c.getMY() + offsetY) * h / 10 + radius / 3, textPaint);
+                if (c.getMId()==current_position) canvas.drawCircle((float) c.getMX() * w / 10, (float) (c.getMY() + offsetY)* h / 10, radius*2, positionPaint);
             }
         }
-        super.draw(canvas);
+        System.out.println("I WILL DRAW NOW");
+        super.onDraw(canvas);
     }
 
     void setCoordinates(List<Coordinate> coordinates){
+        System.out.println("Coordinates size: "+coordinates.size());
         mCoordinates = coordinates;
-        //notifyDataSetChanged();
+        //invalidate();
+    }
+
+    void increaseCurrentPosition(){
+        current_position++;
+        System.out.println(current_position);
+        //invalidate();
+    }
+
+    void setCurrentPosition(Integer pos){
+        current_position = pos;
+        System.out.println("Position Changed: " +current_position);
+        //invalidate();
     }
 
 }

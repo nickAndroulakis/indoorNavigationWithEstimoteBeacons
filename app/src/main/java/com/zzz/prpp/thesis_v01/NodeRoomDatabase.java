@@ -69,10 +69,21 @@ public abstract class NodeRoomDatabase extends RoomDatabase {
             //Coordinates
             mCoordinateDao.deleteAll();
             mCoordinateDao.insert(new Coordinate(1,5,2));
-            mCoordinateDao.insert(new Coordinate(2,5,4));
-            mCoordinateDao.insert(new Coordinate(3,7,4));
-            mCoordinateDao.insert(new Coordinate(4,1,5));
-
+            mCoordinateDao.insert(new Coordinate(2,5,3));
+            mCoordinateDao.insert(new Coordinate(3,7,3));
+            mCoordinateDao.insert(new Coordinate(4,1,4));
+            mCoordinateDao.insert(new Coordinate(5,1,5));
+            mCoordinateDao.insert(new Coordinate(6,3,5));
+            mCoordinateDao.insert(new Coordinate(7,5,5));
+            mCoordinateDao.insert(new Coordinate(8,7,5));
+            mCoordinateDao.insert(new Coordinate(9,9,5));
+            mCoordinateDao.insert(new Coordinate(10,5,6));
+            mCoordinateDao.insert(new Coordinate(11,7,6));
+            mCoordinateDao.insert(new Coordinate(12,9,6));
+            mCoordinateDao.insert(new Coordinate(13,5,7));
+            mCoordinateDao.insert(new Coordinate(14,7,7));
+            mCoordinateDao.insert(new Coordinate(15,5,8));
+            mCoordinateDao.insert(new Coordinate(16,7,8));
 
             //Nodes
             mDao.deleteAll();

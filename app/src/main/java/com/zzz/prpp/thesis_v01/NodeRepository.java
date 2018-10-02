@@ -10,15 +10,19 @@ public class NodeRepository {
 
     private NodeDao mNodeDao;
     private LiveData<List<Node>> mAllNodes;
+    //private List<Node> mAllNodesSimple;
+
     NodeRepository(Application application) {
         NodeRoomDatabase db = NodeRoomDatabase.getDatabase(application);
         mNodeDao = db.nodeDao();
         mAllNodes = mNodeDao.getAllNodes();
+        //mAllNodesSimple = mNodeDao.getAllNodesSimple();
     }
 
     LiveData<List<Node>> getAllNodes() {
         return mAllNodes;
     }
+    //List<Node> getmAllNodesSimple() { return mAllNodesSimple; }
 
 
     public void insert (Node node) {
