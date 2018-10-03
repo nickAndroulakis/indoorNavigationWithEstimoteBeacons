@@ -1,27 +1,35 @@
 package com.zzz.prpp.thesis_v01;
 
+import java.util.FormatFlagsConversionMismatchException;
+
 public class Vertex {
-    final private String id;
-    final private String name;
+    final private int id;
+    final private float mX;
+    final private float mY;
 
 
-    public Vertex(String id, String name) {
+    public Vertex(Integer id, Float x, Float y) {
         this.id = id;
-        this.name = name;
+        this.mX = x;
+        this.mY = y;
     }
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public Float getMX() {
+        return mX;
+    }
+
+    public Float getMY() {
+        return mY;
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + id;
         return result;
     }
 
@@ -34,16 +42,9 @@ public class Vertex {
         if (getClass() != obj.getClass())
             return false;
         Vertex other = (Vertex) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
+        if (!(id == other.id))
             return false;
         return true;
     }
 
-    @Override
-    public String toString() {
-        return name;
-    }
 }

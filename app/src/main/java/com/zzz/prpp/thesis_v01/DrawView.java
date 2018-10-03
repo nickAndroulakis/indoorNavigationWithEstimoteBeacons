@@ -11,13 +11,15 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class DrawView extends View {
 
-    //private List<Coordinate> mCoordinates = new ArrayList<>();
     private List<Coordinate> mCoordinates = new ArrayList<>();
     private Integer current_position;
+    private LinkedList<Vertex> path;
+    private Vertex previousVertex;
 
     int textColor = Color.parseColor("#000000");
     int solidColor = Color.parseColor("#3399ff");
@@ -53,23 +55,6 @@ public class DrawView extends View {
         positionPaint.setColor(positionColor);
         positionPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
 
-        //mCoordinates.add(new Coordinate(1,5,2));
-        /*mCoordinates.add(new Coordinate(2,5,3));
-        mCoordinates.add(new Coordinate(3,7,3));
-        mCoordinates.add(new Coordinate(4,1,4));
-        mCoordinates.add(new Coordinate(5,1,5));
-        mCoordinates.add(new Coordinate(6,3,5));
-        mCoordinates.add(new Coordinate(7,5,5));
-        mCoordinates.add(new Coordinate(8,7,5));
-        mCoordinates.add(new Coordinate(9,9,5));
-        mCoordinates.add(new Coordinate(10,5,6));
-        mCoordinates.add(new Coordinate(11,7,6));
-        mCoordinates.add(new Coordinate(12,9,6));
-        mCoordinates.add(new Coordinate(13,5,7));
-        mCoordinates.add(new Coordinate(14,7,7));
-        mCoordinates.add(new Coordinate(15,5,8));
-        mCoordinates.add(new Coordinate(16,7,8));*/
-
         double offsetY;
         int radius = 30;
         int h = this.getHeight();
@@ -83,6 +68,13 @@ public class DrawView extends View {
                 canvas.drawCircle((float) c.getMX() * w / 10, (float) (c.getMY() + offsetY)* h / 10, radius, circlePaint);
                 canvas.drawText(String.valueOf(c.getMId()), (float) c.getMX() * w / 10 - radius / 3, (float) (c.getMY() + offsetY) * h / 10 + radius / 3, textPaint);
                 if (c.getMId()==current_position) canvas.drawCircle((float) c.getMX() * w / 10, (float) (c.getMY() + offsetY)* h / 10, radius*2, positionPaint);
+            }
+            if (path != null) {
+                previousVertex = null;
+                for(Vertex v : path) {
+                    if (previousVertex != null) canvas.drawLine(previousVertex.getMX(),previousVertex.getMY(),v.getMX(),v.getMY(),positionPaint);
+                        previousVertex = v;
+                }
             }
         }
         System.out.println("I WILL DRAW NOW");
@@ -107,4 +99,9 @@ public class DrawView extends View {
         //invalidate();
     }
 
+    void setShortestPath(LinkedList<Vertex> p){
+        path = p;
+        System.out.println("Path changed: " +p.size());
+        invalidate();
+    }
 }

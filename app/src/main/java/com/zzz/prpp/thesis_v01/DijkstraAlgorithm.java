@@ -16,20 +16,20 @@ public class DijkstraAlgorithm {
     private Set<Vertex> settledNodes;
     private Set<Vertex> unSettledNodes;
     private Map<Vertex, Vertex> predecessors;
-    private Map<Vertex, Integer> distance;
+    private Map<Vertex, Float> distance;
 
     public DijkstraAlgorithm(Graph graph) {
         // create a copy of the array so that we can operate on this array
-        this.nodes = new ArrayList<Vertex>(graph.getVertexes());
-        this.edges = new ArrayList<Edge>(graph.getEdges());
+        this.nodes = new ArrayList<>(graph.getVertexes());
+        this.edges = new ArrayList<>(graph.getEdges());
     }
 
     public void execute(Vertex source) {
-        settledNodes = new HashSet<Vertex>();
-        unSettledNodes = new HashSet<Vertex>();
-        distance = new HashMap<Vertex, Integer>();
-        predecessors = new HashMap<Vertex, Vertex>();
-        distance.put(source, 0);
+        settledNodes = new HashSet<>();
+        unSettledNodes = new HashSet<>();
+        distance = new HashMap<>();
+        predecessors = new HashMap<>();
+        distance.put(source, 0f);
         unSettledNodes.add(source);
         while (unSettledNodes.size() > 0) {
             Vertex node = getMinimum(unSettledNodes);
@@ -53,7 +53,7 @@ public class DijkstraAlgorithm {
 
     }
 
-    private int getDistance(Vertex node, Vertex target) {
+    private float getDistance(Vertex node, Vertex target) {
         for (Edge edge : edges) {
             if (edge.getSource().equals(node)
                     && edge.getDestination().equals(target)) {
@@ -64,7 +64,7 @@ public class DijkstraAlgorithm {
     }
 
     private List<Vertex> getNeighbors(Vertex node) {
-        List<Vertex> neighbors = new ArrayList<Vertex>();
+        List<Vertex> neighbors = new ArrayList<>();
         for (Edge edge : edges) {
             if (edge.getSource().equals(node)
                     && !isSettled(edge.getDestination())) {
@@ -92,13 +92,11 @@ public class DijkstraAlgorithm {
         return settledNodes.contains(vertex);
     }
 
-    private int getShortestDistance(Vertex destination) {
-        Integer d = distance.get(destination);
-        if (d == null) {
-            return Integer.MAX_VALUE;
-        } else {
+    private float getShortestDistance(Vertex destination) {
+        float d;
+        if (distance.get(destination) == null) d = 100f;
+        else d = distance.get(destination);
             return d;
-        }
     }
 
     /*
@@ -106,7 +104,7 @@ public class DijkstraAlgorithm {
      * NULL if no path exists
      */
     public LinkedList<Vertex> getPath(Vertex target) {
-        LinkedList<Vertex> path = new LinkedList<Vertex>();
+        LinkedList<Vertex> path = new LinkedList<>();
         Vertex step = target;
         // check if a path exists
         if (predecessors.get(step) == null) {

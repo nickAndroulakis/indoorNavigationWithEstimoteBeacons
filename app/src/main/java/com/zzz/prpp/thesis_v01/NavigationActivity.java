@@ -17,21 +17,30 @@ import com.estimote.coresdk.service.BeaconManager;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
 import static com.estimote.coresdk.observation.region.RegionUtils.computeAccuracy;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
 
 public class NavigationActivity extends AppCompatActivity {
 
     private NodeViewModel mNodeViewModel;
     List<Node> nodeList = new ArrayList<>();
+    List<Coordinate> coordinateList = new ArrayList<>();
 
     private BeaconManager beaconManager;
     private BeaconRegion region;
     public Integer closestNodeNumber;
     private Integer closestNodeId = 0;
+    private Integer exit = 5;
 
+    private List<Vertex> vertices;
+    private List<Edge> edges;
+    private Graph graph;
 
     private Double one = 100.0;
     private Double two = 100.0;
@@ -66,8 +75,7 @@ public class NavigationActivity extends AppCompatActivity {
         mNodeViewModel.getAllNodes().observe(this, new Observer<List<Node>>() {
             @Override
             public void onChanged(@Nullable List<Node> nodes) {
-                nodeList = mNodeViewModel.getAllNodes().getValue();
-                //vw.invalidate();
+                nodeList = nodes;
                 System.out.println("Nodes size: "+nodes.size());
             }
         });
@@ -78,7 +86,8 @@ public class NavigationActivity extends AppCompatActivity {
         mNodeViewModel.getAllCoordinates().observe(this, new Observer<List<Coordinate>>() {
             @Override
             public void onChanged(@Nullable List<Coordinate> coordinates) {
-                //DrawView.mCoordinates = coordinates;
+                coordinateList = coordinates;
+                if (graph == null) initializeGraph();
                 vw.setCoordinates(coordinates);
                 vw.invalidate();
             }
@@ -116,6 +125,7 @@ public class NavigationActivity extends AppCompatActivity {
                 Node myNode = new Node(99, one, two, three, four, five, null);
                 closestNodeNumber = calculateClosestNode(myNode);
                 vw.setCurrentPosition(closestNodeNumber);
+                if (closestNodeNumber != 0 && calculateShortestPath(closestNodeNumber) != null) vw.setShortestPath(calculateShortestPath(closestNodeNumber));
                 vw.invalidate();
             }
         });
@@ -171,5 +181,70 @@ public class NavigationActivity extends AppCompatActivity {
     protected void onPause() {
         beaconManager.stopRanging(region);
         super.onPause();
+    }
+
+    private LinkedList<Vertex> calculateShortestPath(Integer pos){
+
+        if (graph != null) System.out.println("calculating path");
+
+        DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(graph);
+        dijkstra.execute(vertices.get(pos-1));
+        LinkedList<Vertex> path = dijkstra.getPath(vertices.get(exit-1));
+
+        //assertNotNull(path);
+        //assertTrue(path.size() > 0);
+        if (path != null && path.size()==1) System.out.println("You are already at the exit");
+
+        return path;
+
+
+
+
+
+    }
+
+    private void initializeGraph(){
+        vertices = new ArrayList<>();
+        edges = new ArrayList<>();
+
+        addVertices();
+        Collections.reverse(vertices);
+        addEdges();
+
+        graph = new Graph(vertices,edges);
+        System.out.println("Graph initialized");
+    }
+
+    private void addVertices(){
+        for (Coordinate c : coordinateList){
+            vertices.add(new Vertex(c.getMId(),(float) c.getMX(),(float) c.getMY()));
+        }
+    }
+
+    private void addEdges(){
+        addLane(1,1,2,1);
+        addLane(2,2,3,1);
+        addLane(3,3,8,2);
+        addLane(4,4,5,1);
+        addLane(5,5,6,1);
+        addLane(6,6,7,1);
+        addLane(7,7,8,1);
+        addLane(8,7,10,1.5f);
+        addLane(9,8,9,1);
+        addLane(10,8,11,1.5f);
+        addLane(11,9,12,1.5f);
+        addLane(12,10,11,1);
+        addLane(13,10,13,1);
+        addLane(14,11,12,1);
+        addLane(15,11,14,1);
+        addLane(16,13,15,1);
+        addLane(17,14,16,1);
+        addLane(18,15,16,1);
+    }
+
+    private void addLane(int laneId, int sourceLocNo, int destLocNo,
+                         float duration) {
+        Edge lane = new Edge(laneId,vertices.get(sourceLocNo-1), vertices.get(destLocNo-1), duration );
+        edges.add(lane);
     }
 }
