@@ -189,7 +189,9 @@ public class NavigationActivity extends AppCompatActivity {
 
         DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(graph);
         dijkstra.execute(vertices.get(pos-1));
+        System.out.println("Dijkstra execute for: "+vertices.get(pos-1).getId());
         LinkedList<Vertex> path = dijkstra.getPath(vertices.get(exit-1));
+        System.out.println("Setting path for: "+ vertices.get(exit-1).getId());
 
         //assertNotNull(path);
         //assertTrue(path.size() > 0);
@@ -208,8 +210,10 @@ public class NavigationActivity extends AppCompatActivity {
         edges = new ArrayList<>();
 
         addVertices();
-        Collections.reverse(vertices);
+        printVert();
         addEdges();
+        addReverseEdges();
+        printEdges();
 
         graph = new Graph(vertices,edges);
         System.out.println("Graph initialized");
@@ -242,9 +246,33 @@ public class NavigationActivity extends AppCompatActivity {
         addLane(18,15,16,1);
     }
 
+    private void addReverseEdges(){
+        List<Edge> edgesHelper = new ArrayList<>();
+        for (Edge e : edges){
+            edgesHelper.add(new Edge(e.getId()+18,e.getDestination(),e.getSource(),e.getWeight()));
+        }
+        edges.addAll(edgesHelper);
+    }
+
     private void addLane(int laneId, int sourceLocNo, int destLocNo,
                          float duration) {
         Edge lane = new Edge(laneId,vertices.get(sourceLocNo-1), vertices.get(destLocNo-1), duration );
+        //printEdge(lane);
         edges.add(lane);
+    }
+
+    private void printVert(){
+        System.out.println("These are the vertices in order:");
+        for (Vertex v : vertices)
+            System.out.println(v.getId());
+    }
+
+    private void printEdge(Edge e){
+        System.out.println(e.getId()+","+e.getSource().getId()+","+e.getDestination().getId()+","+e.getWeight());
+    }
+
+    private void printEdges(){
+        for (Edge e : edges)
+            printEdge(e);
     }
 }

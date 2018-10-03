@@ -18,7 +18,7 @@ public class DrawView extends View {
 
     private List<Coordinate> mCoordinates = new ArrayList<>();
     private Integer current_position;
-    private LinkedList<Vertex> path;
+    private LinkedList<Vertex> path = new LinkedList<>();
     private Vertex previousVertex;
 
     int textColor = Color.parseColor("#000000");
@@ -55,28 +55,46 @@ public class DrawView extends View {
         positionPaint.setColor(positionColor);
         positionPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
 
-        double offsetY;
+        Paint pathPaint = new Paint();
+        pathPaint.setColor(positionColor);
+        pathPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+        pathPaint.setStrokeWidth(20f);
+
+        float offsetY;
+        float previousOffsetY = 0f;
         int radius = 30;
         int h = this.getHeight();
         int w = this.getWidth();
         if (current_position == null) current_position = 2;
 
-        if (!mCoordinates.isEmpty()){
+        if (!mCoordinates.isEmpty()) {
             System.out.println("mCoordinates not empty");
-            for (Coordinate c : mCoordinates){
-                if (c.getMId()>9) offsetY = 0.5; else offsetY = 0;
-                canvas.drawCircle((float) c.getMX() * w / 10, (float) (c.getMY() + offsetY)* h / 10, radius, circlePaint);
+            for (Coordinate c : mCoordinates) {
+                if (c.getMId() > 9) offsetY = 0.5f;
+                else offsetY = 0f;
+                canvas.drawCircle((float) c.getMX() * w / 10, (float) (c.getMY() + offsetY) * h / 10, radius, circlePaint);
                 canvas.drawText(String.valueOf(c.getMId()), (float) c.getMX() * w / 10 - radius / 3, (float) (c.getMY() + offsetY) * h / 10 + radius / 3, textPaint);
-                if (c.getMId()==current_position) canvas.drawCircle((float) c.getMX() * w / 10, (float) (c.getMY() + offsetY)* h / 10, radius*2, positionPaint);
+                if (c.getMId() == current_position)
+                    canvas.drawCircle((float) c.getMX() * w / 10, (float) (c.getMY() + offsetY) * h / 10, radius * 2, positionPaint);
             }
-            if (path != null) {
+            if (!path.isEmpty()) {
                 previousVertex = null;
-                for(Vertex v : path) {
-                    if (previousVertex != null) canvas.drawLine(previousVertex.getMX(),previousVertex.getMY(),v.getMX(),v.getMY(),positionPaint);
-                        previousVertex = v;
+                for (Vertex v : path) {
+                    System.out.println("drawing path");
+                    if (v.getId() > 9) offsetY = 0.5f;
+                    else offsetY = 0f;
+                    if (previousVertex != null) {
+                        canvas.drawLine(previousVertex.getMX() * w / 10, (previousVertex.getMY() + previousOffsetY) * h / 10, v.getMX() * w / 10, (v.getMY() + offsetY) * h / 10, pathPaint);
+                    }
+                    previousVertex = v;
+                    previousOffsetY = offsetY;
                 }
+                canvas.drawLine(1f * w / 10,5f * h / 10,1f * w / 10,7f * h / 10,pathPaint);
+                canvas.drawLine(0.8f * w / 10,6f * h / 10,1f * w / 10,7f * h / 10,pathPaint);
+                canvas.drawLine(1.2f * w / 10,6f * h / 10,1f * w / 10,7f * h / 10,pathPaint);
             }
         }
+
         System.out.println("I WILL DRAW NOW");
         super.onDraw(canvas);
     }

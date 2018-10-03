@@ -32,6 +32,7 @@ public class DijkstraAlgorithm {
         distance.put(source, 0f);
         unSettledNodes.add(source);
         while (unSettledNodes.size() > 0) {
+            System.out.println("unsettled size: "+ unSettledNodes.size());
             Vertex node = getMinimum(unSettledNodes);
             settledNodes.add(node);
             unSettledNodes.remove(node);
@@ -68,6 +69,7 @@ public class DijkstraAlgorithm {
         for (Edge edge : edges) {
             if (edge.getSource().equals(node)
                     && !isSettled(edge.getDestination())) {
+                System.out.println("here--------------------------------------------------------------");
                 neighbors.add(edge.getDestination());
             }
         }

@@ -87,7 +87,7 @@ public abstract class NodeRoomDatabase extends RoomDatabase {
 
             //Nodes
             mDao.deleteAll();
-            Node node = new Node(1,1.0,1.0,10.0,10.0,10.0,10.0);
+            Node node = new Node(16,1.0,1.0,10.0,10.0,10.0,10.0);
             mDao.insert(node);
             return null;
         }
