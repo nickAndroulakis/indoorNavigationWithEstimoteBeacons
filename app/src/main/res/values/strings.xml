@@ -7,4 +7,6 @@
     <string name="button_calibrate">Calibrate</string>
     <string name="empty_not_saved">Node not saved because it is empty.</string>
     <string name="button_to_node_list">Show Calibrations</string>
+    <string name="welcome">Welcome to the thesis application of Nick Androulakis</string>
+    <string name="github">Find the code on my github page https://github.com/NickAndroulakis</string>
 </resources>
